@@ -7,69 +7,51 @@
     android:background="#242343"
     tools:context=".MainActivity">
 
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="270dp"
         android:id="@+id/weatherIcon"
-        android:src="@drawable/finding"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp" />
 
-    </ImageView>
-
-
-
-
-
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="50dp"
-    android:orientation="vertical"
-    android:layout_above="@id/cityFinder">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/temperature"
-        android:paddingStart="30dp"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:text="0°C">
-    </TextView>
-
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/weatherCondition"
-        android:textSize="30sp"
-        android:textColor="#FFFFFF"
-        android:text="-------"
-        android:paddingStart="30sp">
-    </TextView>
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical"
+        android:layout_above="@id/cityFinder">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cityName"
-        android:textStyle="bold"
-        android:textSize="40sp"
-        android:text="Fetching..."
-        android:paddingStart="30sp"
-        android:textColor="#FFFFFF">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/temperature"
+            android:paddingStart="30dp"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:text="0°C">
+        </TextView>
 
-    </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/weatherCondition"
+            android:textSize="30sp"
+            android:textColor="#FFFFFF"
+            android:text="-------"
+            android:paddingStart="30sp">
+        </TextView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cityName"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:text="Fetching..."
+            android:paddingStart="30sp"
+            android:textColor="#FFFFFF" />
 
-</LinearLayout>
-
-
-
-
-
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -89,9 +71,5 @@
             android:layout_centerInParent="true"
             android:textSize="16sp"/>
 
-
-
-
     </RelativeLayout>
-
 </RelativeLayout>
