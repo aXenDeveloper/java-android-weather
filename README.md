@@ -18,4 +18,4 @@ final String APP_ID = "";
 
 ## 📷 Screenshots
 
-![1](https://github.com/aXenDeveloper/java-android-weather/blob/main/screenshots/1-min.png?raw=true)
+![1](https://github.com/aXenDeveloper/java-android-weather/blob/main/screenshots/1.png?raw=true)
