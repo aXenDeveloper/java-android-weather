@@ -22,14 +22,13 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String APP_ID = ""; /*API code*/
+    final String APP_ID = ""; /* API code */
     final String WEATER_URL = "https://api.openweathermap.org/data/2.5/weather";
 
     final long MIN_TIME = 5000;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE = 101;
 
 
-    String Location_Provider = LocationManager.GPS_PROVIDER;
+    String LocationProvider = LocationManager.GPS_PROVIDER;
 
     TextView NameofCity, weatherState, Temperature;
     ImageView mweatherIcon;
@@ -64,18 +63,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, cityFinder.class);
                 startActivity(intent);
-
-
             }
         });
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getWeatherForCurrentLocation();
+        Intent mIntent = getIntent();
+        String city = mIntent.getStringExtra("City");
+
+        if(city != null) {
+            getWeatherForNewCity(city);
+        } else {
+            getWeatherForCurrentLocation();
+        }
+    }
+
+    private void getWeatherForNewCity(String city) {
+        RequestParams params = new RequestParams();
+        params.put("q", city);
+        params.put("appid", APP_ID);
+        lestsdoSomeNetworking(params);
     }
 
     private void getWeatherForCurrentLocation() {
@@ -83,14 +92,12 @@ public class MainActivity extends AppCompatActivity {
         mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
+                String Latitude = String.valueOf(location.getLatitude());
+                String Longitude = String.valueOf(location.getLongitude());
 
-                String Latitude = String.valueOf(location.getLatitude());    /*Pobieranie koordynatwo*/
-                String Longitude = String.valueOf(location.getLongitude());   /*Pobieranie koordynatwo*/
-
-                /*fething weather data z stroyn*/
                 RequestParams params = new RequestParams();
                 params.put("lat", Latitude);
-                params.put("long",Longitude);
+                params.put("lon", Longitude);
                 params.put("appid", APP_ID);
                 lestsdoSomeNetworking(params);
             }
@@ -107,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onProviderDisabled(String provider) {
-                //not able to get location
+                // not able to get location
             }
         };
 
@@ -123,34 +130,30 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
             return;
         }
-        mLocationManager.requestLocationUpdates(Location_Provider, MIN_TIME, MIN_DISTANCE, mLocationListener); /* po przekorczeniu dystansu albo czasu pobiera znowu dane */
-
-
+        mLocationManager.requestLocationUpdates(LocationProvider, MIN_TIME, MIN_DISTANCE, mLocationListener); /* po przekorczeniu dystansu albo czasu pobiera znowu dane */
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode==REQUEST_CODE){
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(MainActivity.this,"Locationg get Succefully", Toast.LENGTH_LONG).show();
                 getWeatherForCurrentLocation();
             }
-                else {
-                    //user denide the permission
-                }
+            else {
+                    // if user denide the permission
             }
-
+        }
     }
 
     private void lestsdoSomeNetworking(RequestParams params){
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(WEATER_URL, params,new JsonHttpResponseHandler()
+        client.get(WEATER_URL, params, new JsonHttpResponseHandler()
         {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
                 Toast.makeText(MainActivity.this,"Data get success",Toast.LENGTH_SHORT).show();
 
                 weatherData weatherD=weatherData.fromJson(response);
@@ -161,15 +164,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
-
                 //super.onFailure(statusCode, headers, responseString, throwable);
+
+                Toast.makeText(MainActivity.this, "The city was not found", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
     }
 
     private void updateUI(weatherData weather){

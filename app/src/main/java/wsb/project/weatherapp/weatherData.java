@@ -10,7 +10,7 @@ public class weatherData {
 
     public static weatherData fromJson(JSONObject jsonObject){
 
-        try{
+        try {
             weatherData weatherD=new weatherData();
             weatherD.mcity=jsonObject.getString("name");
             weatherD.mCondition=jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id"); /*id*/
@@ -19,14 +19,13 @@ public class weatherData {
             double tempResault=jsonObject.getJSONObject("main").getDouble("temp") -273.15; /*zamiana z kelvinów na celcjusze*/
             int roundValue=(int)Math.rint(tempResault);
             weatherD.mTemperature=Integer.toString(roundValue);
-            return weatherD;
 
-        }
-         catch (JSONException e) {
+            return weatherD;
+        } catch (JSONException e) {
             e.printStackTrace();
+
             return null;
         }
-
     }
 
     private static String updeateWeatherIcon(int condition){
@@ -80,22 +79,17 @@ public class weatherData {
         }
 
         return "dunno";
-
-
     }
 
     public String getmTemperature() {
         return mTemperature+"°C";
     }
-
     public String getMicon() {
         return micon;
     }
-
     public String getMcity() {
         return mcity;
     }
-
     public String getmWeatherType() {
         return mWeatherType;
     }
